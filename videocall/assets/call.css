@@ -1,0 +1,77 @@
+
+.incomingWrapper {
+  background-color: #efefef;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.itemWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.actionButton {
+  display: flex;
+  width: 100px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.dialActionButton {
+  display: flex;
+  width: 80px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  font-size: larger;
+  cursor: pointer;
+}
+
+#errorMessage {
+  color: red;
+}
+
+#call,#answer{
+  width: 100%;
+  flex-direction: column;
+  text-align: center;
+}
+
+button{
+  min-width: 150px;
+}
+
+img{
+  object-fit: contain;
+}
+
+#videos{
+  min-width: 300px;
+  width: 90vw;
+  position: relative;
+  text-align: center;
+}
+
+#localVideoGroup{
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 20px;
+  margin-top: 20px;
+}
+#localVideoGroup video{
+  width:100px;
+  max-width: 10vw;
+  border: 2px solid #fff;
+}
+#remoteVideoDiv{
+  text-align: center;
+}
+#remoteVideoDiv video{
+  width:600px;
+  max-width: 90vw;
+}

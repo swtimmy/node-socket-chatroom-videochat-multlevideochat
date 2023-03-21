@@ -1,0 +1,60 @@
+.env
+.env
+Last login: Tue Mar 21 00:27:05 on ttys001
+(base) sowingtung@Sos-MacBook-Pro node % vi .gitignore
+(base) sowingtung@Sos-MacBook-Pro node % ll
+zsh: command not found: ll
+(base) sowingtung@Sos-MacBook-Pro node % ls
+app.js			package-lock.json	videocall
+chatwithoutroom		package.json		videolive
+index.html		socket.js
+multiplevideocall	user.js
+(base) sowingtung@Sos-MacBook-Pro node % ls -a
+.			chatwithoutroom		socket.js
+..			index.html		user.js
+.DS_Store		multiplevideocall	videocall
+.gitignore		package-lock.json	videolive
+app.js			package.json
+(base) sowingtung@Sos-MacBook-Pro node % vi .gitignore
+(base) sowingtung@Sos-MacBook-Pro node % git remote add origin https://gitlab.com/swtimmy/node-socket-chatroom-videochat-multlevideochat.git
+git branch -M main
+git push -uf origin main
+
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+(base) sowingtung@Sos-MacBook-Pro node % git init
+Initialized empty Git repository in /Users/sowingtung/Downloads/node/.git/
+(base) sowingtung@Sos-MacBook-Pro node % ls -a
+.			app.js			package.json
+..			chatwithoutroom		socket.js
+.DS_Store		index.html		user.js
+.git			multiplevideocall	videocall
+.gitignore		package-lock.json	videolive
+(base) sowingtung@Sos-MacBook-Pro node % git remote add origin https://gitlab.com/swtimmy/node-socket-chatroom-videochat-multlevideochat.git
+git branch -M main
+.env
+.DS_Store
+/node_modules
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+".gitignore" 3L, 29C
