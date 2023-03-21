@@ -1,0 +1,76 @@
+/*.soundbar {
+	background-color: #CCC;
+	height: 20px;
+	width: 100%;
+	position: relative;
+}
+.currentVolume {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 0;
+	height: 20px;
+	background-color: green;
+}
+*/
+.videos {
+	display: flex;
+	flex-wrap: wrap;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+h1 {
+    font-size: calc(2.375rem + 1.5vw);
+}
+
+.into{
+	position: absolute;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	display: block!important;
+    text-align: center;
+}
+
+.videos > div {
+	display: flex;
+	font-size: 0;
+	padding:0;
+	margin:0;
+}
+
+.videos > div > video{
+	width: 100%;
+	height: 100%;
+}
+
+video {
+    object-fit: cover;
+}
+
+.local{
+	position: absolute;
+	top:0;
+	right:0;
+	width:100px;
+	max-width: 25vw;
+	flex-direction: column;
+}
+#localVideo{
+	width:100%;
+}
+#localVideo video{
+	display: block;
+}
+#connections{
+	display: block;
+    background: black;
+    color: #fff;
+    bottom: 0;
+    font-size: 0.7rem;
+    width: 100%;
+    text-align: center;
+}

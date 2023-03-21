@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Call</title>
+    <link rel="stylesheet" href="/assets/call.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src='/socket.io/socket.io.js'></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" id="theme-styles">
+    <link rel="icon" href="/assets/icon.png" sizes="32x32">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-top: 24px;
+            min-height: 90vh;
+        }
+        .section{
+            display: none;
+        }
+        .section-items{
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-width:30vw;
+            /*width:300px;*/
+        }
+        input{
+            min-width:300px!important;
+            width:30vw!important;   
+            text-align: center;
+        }
+        #userName{
+            display: block;
+        }
+        h1{
+            font-size: calc(2.375rem + 1.5vw)
+        }
+    </style>
+
+    <script>
+        let myName;
+    </script>
+</head>
+
+<body>
+    <div>
+            <!-- to input username and login -->
+            <div id="userName" class="animate__animated animate__bounce section">
+                <div class="section-items">
+                    <h1 class="animate__pulse animate__delay-1s animate__animated animate__repeat-3">Video Call</h1>
+                    <div class="input-group input-group-lg mt-4">
+                        <input placeholder="What should we call you?" class="form-control" type="text" name=""
+                            id="userNameInput">
+                    </div>
+                    <button type="button" class="btn btn-success mt-3 btn-lg actionButton" onclick="login()">Login</button>
+                </div>
+            </div>
+
+            <!-- to display current login user information  -->
+            <div id="userInfo" class="animate__animated animate__fadeInUp section">
+                <div class="section-items">
+                    <h1 class=""><span>Hello,</span> <span id="nameHere" class="animate__fadeIn animate__animated animate__delay-1s"></span></h1>
+                    <!-- to make a call with name -->
+                    <div id="call" class="">
+                        <div class="input-group input-group-lg mt-4">
+                            <input placeholder="Who to call?" class="form-control" type="text" name="callName" id="callName">
+                        </div>
+                        <button class="btn btn-success mt-3 btn-lg" onclick="call()">Call</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- to show incommming call and accept -->
+            <div id="answer" class="animate__animated animate__tada section">
+                <div class="incomingWrapper mt-4 p-4">
+                    <div class="itemWrapper">
+                        <h2>Incomming Call</h2>
+                    </div>
+                    <div class="itemWrapper">
+                        <img id="profileImageA" style="padding: 30px; width: 140px; height: 140px;"
+                            src="/assets/video_icon.png" alt="">
+                    </div>
+                    <div class="itemWrapper">
+                        <h2 style="line-height: 0px;"><span id="callerName"></span></h2>
+                    </div>
+                    <button class="btn btn-success mt-3 btn-lg actionButton" onclick="answer()">Answer</button>
+                </div>
+            </div>
+
+            <!-- to show outgoing call -->
+            <div id="calling" class="animate__animated animate__fadeIn section">
+                <div class="incomingWrapper mt-4 p-4">
+                    <div class="itemWrapper">
+                        <h2>Calling</h2>
+                    </div>
+                    <div class="itemWrapper">
+                        <img id="profileImageCA" style="padding: 30px; width: 140px; height: 140px;"
+                            src="/assets/video_icon.png" alt="">
+                    </div>
+                    <div class="itemWrapper">
+                        <h3 style="line-height: 0px;"><span id="otherUserNameCA"></span></h3>
+                    </div>
+                    <button class="btn btn-danger mt-3 btn-lg" onclick="cancelCall()">Cancel Call</button>
+                </div>
+            </div>
+
+            <!-- to show call in progress call -->
+            <div id="inCall" class="animate__animated animate__fadeIn section">
+                <div class="incomingWrapper mt-4 p-4">
+                    <div class="itemWrapper">
+                        <h3>You are in Call with <span id="otherUserNameC"></span></h3>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <!-- to show local and remote video -->
+            <div id="videos" class="animate__animated animate__fadeIn section">
+                <div id="localVideoGroup">
+                    <video width="100px" id="localVideo" autoplay muted playsinline></video>
+                </div>
+                <div id="remoteVideoDiv">
+                    <video id="remoteVideo" autoplay playsinline></video>
+                </div>
+                <button class="btn btn-danger mt-3 mb-4 btn-lg actionButton" onclick="endcall()">Leave</button>
+            </div>
+
+
+
+
+
+
+    </div>
+
+
+    <script src="/assets/call.js"></script>
+    <script>
+        document.getElementById("call").style.display = "none";
+        document.getElementById("userInfo").style.display = "none";
+        document.getElementById("answer").style.display = "none";
+        document.getElementById("inCall").style.display = "none";
+        document.getElementById("calling").style.display = "none";
+        document.getElementById("videos").style.display = "none";
+
+    </script>
+</body>
+
+</html>

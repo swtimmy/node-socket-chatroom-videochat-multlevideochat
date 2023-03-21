@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Room</title>
+	<script src="/socket.io/socket.io.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	<style>
+	:root {
+	   --app-height: 100%;
+	}
+	html,
+	body {
+		padding: 0;
+		margin: 0;
+		overflow: hidden;
+		width: 100vw;
+		height: 100vh;
+		height: var( --app-height );
+	}
+		body{
+			display: flex;
+			flex:1;
+			flex-direction: column;
+			/*max-height: 100vh;*/
+		}
+		.header,.window,.footer{
+			display: flex;
+		}
+		.window{
+			flex:1;
+		}
+		.footer{
+			flex-direction: column;
+		}
+		.form-control:focus{
+			box-shadow: none !important;
+			border: 1px solid #6c757d !important;
+		}
+		tr{
+			display: inline-table;
+    		width: 100%;
+		}
+		small{
+			color: gray;
+		}
+	</style>
+</head>
+<body>
+	<div class="header p-2 justify-content-between align-items-center">
+		<h1 class="m-0">Room</h1>
+		<div class="btn btn-sm btn-danger remove-message" style="">Destroy All Message</div>
+	</div>
+	<div class="table-responsive window pb-2">
+		<table class="table table-striped table-hover">
+			<thead>
+			  	<tr>
+			  		<th>Message</th>
+			  	</tr>
+		  	</thead>
+		  	<tbody></tbody>
+		</table>
+	</div>
+	<div class="footer p-2">
+		<div class="input-group">
+			<input type="text" class="form-control" id="mbox" placeholder="Message" aria-describedby="button-addon2">
+			<button class="btn btn-outline-secondary" type="button" id="button-addon2">Send Message</button>
+		</div>
+	</div>
+<script>
+    
+    $(function(){
+    	$("#mbox").focus();
+    	let socket = io();	
+    	socket.on('recieveRoomMessage',(txt)=>{
+    		$("tbody").append("<tr><td>"+txt+"</td></tr>");
+		  	$(".window").animate({ scrollTop: $("table").height() }, 100);
+    	});
+    	$(document).on('keypress',function(e) {
+		    if(e.which == 13) {
+		        send();
+		    }
+		});
+    	$('button').on('click',function(){
+    		send();
+    	});
+    	$('.remove-message').on('click',function(){
+    		socket.emit('removeRoomMessage');
+    		$("tbody").html("");
+    	});
+    	socket.on('getRoomRemoveMessage',()=>{
+    		$("tbody").html("");
+    	})
+    	socket.emit('getRoomMessage');
+    	socket.on('getRoomMessage',(arr)=>{
+    		if(arr&&arr.length>0){
+    			let htmlstr = "";
+				arr.map(data=>{
+					htmlstr += "<tr><td>"+data+"</td></tr>";
+				})
+				$("tbody").append(htmlstr);
+    		}
+    	})
+    	function send(){
+    		let text = $("input[type=text]").val();
+    		if(text=="")return;
+    		socket.emit('sendRoomMessage',String(text));
+    		$("input[type=text]").val('');
+    	}
+    })
+</script>
+</body>
+</html>
